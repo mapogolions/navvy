@@ -55,6 +55,26 @@ class TestParserPrimitives {
   }
 
   @Test
+  def TestDigits: Unit = {
+    (digits | "134").test(
+      (elem: List[Char], src: Source) => {
+        assertEquals(elem, List('1', '3', '4'))
+        assertEquals((0, 3), (src.ptr.row, src.ptr.col))
+      },
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+
+    (digits | "text").test(
+      (elem: List[Char], src: Source) => assertFail("Should be failure"),
+      (label: String, err: String, pos: Position) => {
+        assertEquals(label, "any of [0-9]")
+        assertEquals((0, 0), (pos.row, pos.col))
+        assertEquals(pos.line, "text")
+      }
+    )
+  }
+
+  @Test
   def TestWhitespace: Unit = {
     (whitespace | " text").test(
       (elem: Char, src: Source) => assertEquals(elem, ' '),

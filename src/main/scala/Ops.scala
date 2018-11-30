@@ -28,12 +28,14 @@ object ops {
   def lower = satisfy { _ isLower } ("lower case")
   def whitespace = satisfy { _ isWhitespace } ("whitespace")
   def space = ' '.parse ?? "space"
+  def tab = '\t'.parse ?? "tab"
+  def newline = '\n'.parse ?? "newline"
   def whitespaces = whitespace.atLeastOne ?? "whitespaces"
   def whatever = satisfy { _ => true } ("whatever")
 
   // digits
   def digit = satisfy { _ isDigit } ("digit")
-  def digits = digit.atLeastOne ?? "Any of [0-9]"
+  def digits = digit.atLeastOne ?? "any of [0-9]"
   def pint = {
     def negate[A](sign: Option[A], i: Int): Int = sign match {
       case None => i
