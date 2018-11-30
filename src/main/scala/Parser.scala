@@ -110,6 +110,12 @@ trait Parser[A](val label: String="unknow") { self =>
     }
   } ?? s"${self.label} orElse ${pb.label}"
 
+  def lift2[B, C](f: A => B => C)(pb: Parser[B]) =
+    (Applicative[Parser] pure f) ap self ap pb
+  
+  def lift3[B, C, D](f: A => B => C => D)(pb: Parser[B])(pc: Parser[C]) =
+    (Applicative[Parser] pure f) ap self ap pb ap pc
+    
   def apply(source: Source): Result[A]
   def | (text: String) = apply (Source from text)
   def |>>  = self.map

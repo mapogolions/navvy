@@ -30,7 +30,7 @@ case class Failure(
   override def toString = {
     val where = s"Row: ${pos.row} Column: ${pos.col} "
     val what = s"Error parsing ${label}\n"
-    val caret = s"${pos.line}\n${" " * (pos.col + 1)}^ ${err}"
-    s"$where $what $caret"
+    val cause = s"${pos.line}\n${" " * (pos.col + 1)}^ ${err}"
+    s"$where $what $cause"
   }
 }

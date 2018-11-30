@@ -1,5 +1,9 @@
 ## Simple library for parsing
 
+### Basic built-in primitives
+
+* `digit` - any digit. Result returns as single char
+* `digits` - at least one digit. Result returns as list of chars
 
 ## sbt project cross-compiled with Dotty and Scala 2
 

@@ -9,12 +9,6 @@ import navvy.applicative.ApplicativeInstances._
 import navvy.applicative.ApplicativeSyntax._
 
 object ops {
-  // for draft
-  def startWith = lift({ token: String => token.startsWith })
-  def add = lift({ a: Int => b: Int => a + b })
-  def lift[A, B, C](f: A => B => C)(pa: Parser[A])(pb: Parser[B]) =
-    Applicative[Parser].pure(f).ap(pa).ap(pb)
-
   def parserThreeDigitsAsInt = parseThreeDigitsAsStr map { _.toInt }
   def parseThreeDigitsAsStr = {
     def transform(xs: ((Char, Char), Char)): String = 
@@ -34,7 +28,7 @@ object ops {
   def lower = satisfy { _ isLower } ("lower case")
   def whitespace = satisfy { _ isWhitespace } ("whitespace")
   def space = ' '.parse ?? "space"
-  def whitespaces = whitespace atLeastOne
+  def whitespaces = whitespace.atLeastOne ?? "whitespaces"
   def whatever = satisfy { _ => true } ("whatever")
 
   // digits
@@ -99,7 +93,7 @@ object ops {
     def many: Parser[List[String]] = parse many
     def once: Parser[String] = parse
     def parse: Parser[String] =
-      str.toList.map(_ parse).sequence map { _ mkString("") }
+      str.toList.map(_ parse).sequence.map(_ mkString("")) ?? s"$str"
   }
 
   implicit class ParserListOps[A](pa: Parser[List[A]]) {
@@ -114,12 +108,9 @@ object ops {
  
   implicit class ListOfParserOps[A, B](ls: List[Parser[A]]) {
     def choice: Parser[A] = ls reduce(_ <|> _)
-    def sequence: Parser[List[A]] = {
-      def cons[A] =  lift({ x: A => xs: List[A] => x :: xs })
-      ls match {
-        case Nil => Applicative[Parser] pure Nil
-        case x::xs => cons(x)(xs sequence)
-      }
+    def sequence: Parser[List[A]] = ls match {
+      case Nil => Applicative[Parser] pure Nil
+      case x::xs => x.lift2({ y: A => ys: List[A] => y :: ys })(xs.sequence)
     }
   }
 }
