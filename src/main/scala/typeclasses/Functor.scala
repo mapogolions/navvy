@@ -37,7 +37,20 @@ object FunctorSyntax {
 }
 
 object FunctorInstances {
-  // pa: Parser[A] is just a function String => Result[A]
+  implicit val resultFunctor: Functor[Result] = new Functor[Result] {
+    def map[A, B](fa: Result[A])(f: A => B): Result[B] =
+      fa match {
+        case Success(elem, src) => Success(f(elem), src)
+        case Failure(label, err, pos) => Failure(label, err, pos)
+      }
+  }
+  implicit val successFunctor: Functor[Success] = new Functor[Success] {
+    def map[A, B](fa: Success[A])(f: A => B): Success[B] =
+      fa match {
+        case Success(a, src) => Success(f(a), src)
+      }
+  }
+
   implicit val parserFunctor: Functor[Parser] = new Functor[Parser] {
     def map[A, B](fa: Parser[A])(f: A => B): Parser[B] =
       fa match {

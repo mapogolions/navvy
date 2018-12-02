@@ -30,7 +30,7 @@ object Source {
   def unapply(source: Source) = Some(source.lines, source.ptr)
   def from(text: String): Source =
     if (!text.nonEmpty) Source(Array.empty, Pointer(0, 0))
-    else Source(text.split("\n"), Pointer(0, 0))
+    else Source(text.split('\n'), Pointer(0, 0))
 }
 
 class Position(val line: String, val row: Int, val col: Int) {

@@ -37,24 +37,38 @@ object ops {
   def digit = satisfy { _ isDigit } ("digit")
   def digits = digit.atLeastOne ?? "any of [0-9]"
   def pint = {
-    def negate[A](sign: Option[A], i: Int): Int = sign match {
+    def resultToInt[A](sign: Option[A], i: Int): Int = sign match {
       case None => i
       case Some(_) => -i
     }
-    ('-' opt) >> digits.map(_ mkString("") toInt) map negate
+    (('-' opt) >> digits.map(_ mkString("") toInt)).map(resultToInt) ?? "pint"
+  }
+
+  def float = {
+    def resultToFloat(input: (((Option[Char], String), Char), String)) = {
+      val (((sign, digit1), point), digit2) = input
+      val number = s"${digit1}.${digit2}".toDouble
+      sign match {
+        case None => number
+        case Some(ch) => -number
+      }
+    }
+    (('-'.opt) >> digits.map(_ mkString("")) >> '.'.once >> digits.map(_ mkString("")))
+      .map(resultToFloat) ?? "float"
   }
 
   // special
   def email = {
-    val nickname = letterOrDigit.atLeastOne.map(xs => xs.mkString(""))
+    val local = letterOrDigit.atLeastOne.map(xs => xs.mkString(""))
     val domain = ('@'.once >> 
                   ("mail.ru".once <|> "gmail.com".once <|> "yandex.ru".once)
                  ).map(_ + _)
-    (nickname >> domain).map(_ + _)
+    (local >> domain).map(_ + _)
   }
   def tel1 = (digits >> '-'.once >> digits)
     .map( (xs, ys) => xs._1 ++ List(xs._2) ++ ys)
     .map(_ mkString(""))
+
 
   private def satisfy[A >: Char](p: A => Boolean)(label: String) =
     new Parser[A](label) {
@@ -68,14 +82,10 @@ object ops {
   }
 
   implicit class CharOps(ch: Char) {
+    def times(n: Int) = parse times n
     def sep[B] = parse.sep[B]
     def between[B, C] = parse.between[B, C]
     def opt = parse opt
-    def lessOrEq(n: Int) = parse lessOrEq n
-    def less(n: Int) = parse less n
-    def more(n: Int) = parse more n
-    def moreOrEq(n: Int) = parse moreOrEq n
-    def repeat(n: Int) = parse repeat n
     def atLeastOne: Parser[List[Char]] = parse atLeastOne
     def many: Parser[List[Char]] = parse many
     def once: Parser[Char] = parse
@@ -83,25 +93,15 @@ object ops {
   }
 
   implicit class StringOps(str: String) {
+    def times(n: Int) = parse times n
     def sep[B] = parse.sep[B]
     def between[B, C] = parse.between[B, C]
     def opt = parse opt
-    def lessOrEq(n: Int) = parse lessOrEq n
-    def less(n: Int) = parse less n
-    def more(n: Int) = parse more n
-    def moreOrEq(n: Int) = parse moreOrEq n
-    def repeat(n: Int) = parse repeat n
     def atLeastOne: Parser[List[String]] = parse atLeastOne
     def many: Parser[List[String]] = parse many
     def once: Parser[String] = parse
     def parse: Parser[String] =
       str.toList.map(_ parse).sequence.map(_ mkString("")) ?? s"$str"
-  }
-
-  implicit class ParserListOps[A](pa: Parser[List[A]]) {
-    def count = pa.map(xs => xs.length)
-    def string(delim: String="") = pa.map(xs => xs.mkString(delim))
-    def int = pa.map(_ mkString("") toInt)
   }
   
   implicit class ListOfCharsOps(ls: List[Char]) {

@@ -1,11 +1,14 @@
 ## Simple library for parsing
 
+# Todo 
+- implement `skip`
+
 
 ### Basic built-in primitives
 
 - `digit` - *any of the digits*
 - `digits` - *at least one of the digit*
-- `float` - **It will be implemented in the future**
+- `float` - *any of the float digits*
 - `whitespace` - *any of `' '`, `\t`, `\n`*
 - `whitespaces` - *at least one of the  whitespaces*
 - `letter` - *any of the letter*
@@ -30,7 +33,7 @@
 - `less` - *matches less than `n` times of the specified parser*
 - `lessOrEq` - *matches less of equal `n` times of the specified parser*
 - `opt` - *matches an optional occurrences of the specified parser*
-- `repeat` - *matches `n` occurances of the specified parser*
+- `times` - *matches `n` occurances of the specified parser*
 - `sep` - *parses zero or more occurences of a parser with a separator*
 
 
