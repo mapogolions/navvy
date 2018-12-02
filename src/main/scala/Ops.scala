@@ -65,10 +65,9 @@ object ops {
                  ).map(_ + _)
     (local >> domain).map(_ + _)
   }
-  def tel1 = (digits >> '-'.once >> digits)
+  def tel = (digits >> '-'.once >> digits)
     .map( (xs, ys) => xs._1 ++ List(xs._2) ++ ys)
     .map(_ mkString(""))
-
 
   private def satisfy[A >: Char](p: A => Boolean)(label: String) =
     new Parser[A](label) {
@@ -82,6 +81,7 @@ object ops {
   }
 
   implicit class CharOps(ch: Char) {
+    def skip(n: Int=1) = parse skip n
     def times(n: Int) = parse times n
     def sep[B] = parse.sep[B]
     def between[B, C] = parse.between[B, C]
@@ -93,6 +93,7 @@ object ops {
   }
 
   implicit class StringOps(str: String) {
+    def skip(n: Int=1) = parse skip n
     def times(n: Int) = parse times n
     def sep[B] = parse.sep[B]
     def between[B, C] = parse.between[B, C]
@@ -107,7 +108,11 @@ object ops {
   implicit class ListOfCharsOps(ls: List[Char]) {
     def anyOf = ls.map(_ parse).choice ?? s"Any of ${ls.mkString("|")}"
   }
- 
+  
+  implicit class ParserOps[A](pa: Parser[A]) {
+    def skip(n: Int=1) = whatever.times(n) |> pa
+  }
+
   implicit class ListOfParserOps[A, B](ls: List[Parser[A]]) {
     def choice: Parser[A] = ls reduce(_ <|> _)
     def sequence: Parser[List[A]] = ls match {

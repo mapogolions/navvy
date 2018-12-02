@@ -1,8 +1,5 @@
 ## Simple library for parsing
 
-# Todo 
-- implement `skip`
-
 
 ### Basic built-in primitives
 
@@ -37,7 +34,7 @@
 - `sep` - *parses zero or more occurences of a parser with a separator*
 
 
-## Composition tools
+### Composition tools
 
 - `>>` - *combining two parsers in sequence: the `and then` combinator*
 - `<|>` - *choosing between two parsers: the `or else` combinator*
