@@ -9,6 +9,11 @@ import navvy.functor.FunctorSyntax._
 object Main {
   def main(args: Array[String]): Unit = {
     println("Hello world!")
+    //(digits.asInt | "1111loha" echo)
+    // ('a'.once >> 'b'.once >> 'c'.once).flatten | "abcad" echo
+    // tel | "3434-3434" echo
+   //  email | "ivanovgmail.com" echo
+
     // ('-'.opt.once | "344-324234-34" echo)
     // ('e'.opt >> 'e'.opt).many | "hello" echo
     // ('e'.once.repeat(3) >> 'b'.once.repeat(2)).many | "eeebbeeebbeeebb" echo
@@ -29,6 +34,6 @@ object Main {
     // пропускаем первые два символа
     // (whatever >> whatever) |> 'b'.once | "aabus" echo
     // 'e'.once.times(3)
-    // float | "-324.4545d" echo
+    float | "-324.4545d" echo
   }
 }

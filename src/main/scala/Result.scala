@@ -5,13 +5,6 @@ import navvy.adt._
 
 sealed trait Result[+A] { self =>
   def echo = println(self toString)
-  def test(
-    f: (elem: A, src: Source) => Unit, 
-    g: (label: String, err: String, pos: Position) => Unit
-  ) = self match {
-    case Success(elem, src) => f(elem, src)
-    case Failure(label, err, pos) => g(label, err, pos)
-  }
 }
 
 case class Success[A](

@@ -6,6 +6,7 @@ import org.hamcrest.CoreMatchers.equalTo
 
 import navvy.adt._
 import navvy.ops._
+import navvy.testkit.ops._
 import navvy.functor.Functor
 import navvy.functor.FunctorInstances._
 import navvy.functor.FunctorSyntax._
@@ -16,6 +17,34 @@ import navvy.applicative.ApplicativeSyntax._
 
 class TestParserPrimitives {
   @Test
+  def TestNewline: Unit = {
+    (newline | "\n1. Do ...").test(
+      (elem: Char, src: Source) => assertEquals(elem, '\n'),
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+    (newline | "1. Do ...").test(
+      (elem: Char, src: Source) => assertFail("Should be failure"),
+      (label: String, err: String, pos: Position) => assertEquals(label, "newline")
+    )
+  }
+
+  @Test
+  def TestSpace: Unit = {
+    (space | " 1. Do ...").test(
+      (elem: Char, src: Source) => assertEquals(elem, ' '),
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+  }
+
+  @Test
+  def TestTab: Unit = {
+    (tab | "\t1. Do ...").test(
+      (elem: Char, src: Source) => assertEquals(elem, '\t'),
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+  }
+
+  @Test
   def TestUppserCase: Unit = {
     (upper | "Albus").test(
       (elem: Char, src: Source) => assertEquals(elem, 'A'),
@@ -25,6 +54,27 @@ class TestParserPrimitives {
     (upper.atLeastOne | "OOps").test(
       (elem: List[Char], src: Source) => assertEquals(elem, List('O', 'O')),
       (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+
+    (upper | "alloha").test(
+      (elem: Char, src: Source) => assertFail("Should be failure"),
+      (label: String, err: String, pos: Position) => assertEquals(label, "upper case")
+    )
+  }
+
+  @Test
+  def TestLowerCase: Unit = {
+    (lower | "allo").test(
+      (elem: Char, src: Source) => assertEquals(elem, 'a'),
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+    
+    (lower | "A").test(
+      (elem: Char, src: Source) => assertFail("Should be failure"),
+      (label: String, err: String, pos: Position) => {
+        assertEquals(label, "lower case")
+        assertEquals((pos.line, pos.row, pos.col), ("A", 0, 0))
+      }
     )
   }
   

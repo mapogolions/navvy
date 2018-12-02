@@ -6,6 +6,7 @@ import org.hamcrest.CoreMatchers.equalTo
 
 import navvy.adt._
 import navvy.ops._
+import navvy.testkit.ops._
 import navvy.functor.Functor
 import navvy.functor.FunctorInstances._
 import navvy.functor.FunctorSyntax._

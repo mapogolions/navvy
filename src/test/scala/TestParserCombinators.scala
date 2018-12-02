@@ -6,6 +6,7 @@ import org.hamcrest.CoreMatchers.equalTo
 
 import navvy.adt._
 import navvy.ops._
+import navvy.testkit.ops._
 import navvy.functor.Functor
 import navvy.functor.FunctorInstances._
 import navvy.functor.FunctorSyntax._
@@ -15,6 +16,20 @@ import navvy.applicative.ApplicativeSyntax._
 
 
 class TestParserCombinators {
+  @Test
+  def TestBetween: Unit = {
+    (upper.between(digit)(lower) | "1Ul").test(
+      (elem: Char, src: Source) => assertEquals(elem, 'U'),
+      (label: String, err: String, pos: Position) => assertFail("Should be success")
+    )
+
+    (whitespace.times(2).between("one".once)("two".once) | "one  two")
+      .test(
+        (elem: List[Char], src: Source) => assertEquals(elem, List(' ', ' ')),
+        (label: String, err: String, pos: Position) => assertFail("Should be success")
+      )
+  }
+
   @Test
   def TestKeepRight: Unit = {
     (digit |> digit | "123").test(

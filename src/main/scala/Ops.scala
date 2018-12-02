@@ -9,18 +9,6 @@ import navvy.applicative.ApplicativeInstances._
 import navvy.applicative.ApplicativeSyntax._
 
 object ops {
-  def parserThreeDigitsAsInt = parseThreeDigitsAsStr map { _.toInt }
-  def parseThreeDigitsAsStr = {
-    def transform(xs: ((Char, Char), Char)): String = 
-      xs match { case ((a, b), c) => s"${a}${b}${c}" }
-    parseThreeDigits.map(transform)
-  }
-
-  def parseThreeDigits = parseDigit >> parseDigit >> parseDigit
-  def parseLowerCase = Range('a', 'z').toList.map(_ toChar) anyOf
-  def parseUpperCase = Range('A', 'Z').toList.map(_ toChar) anyOf
-  def parseDigit = List('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') anyOf
-
   // characters
   def letter = satisfy { _ isLetter } ("letter")
   def letterOrDigit = satisfy { _ isLetterOrDigit } ("letter or digit")
@@ -41,7 +29,7 @@ object ops {
       case None => i
       case Some(_) => -i
     }
-    (('-' opt) >> digits.map(_ mkString("") toInt)).map(resultToInt) ?? "pint"
+    ((('-' opt)) >> digits.asInt).map(resultToInt) ?? "pint"
   }
 
   def float = {
@@ -53,22 +41,20 @@ object ops {
         case Some(ch) => -number
       }
     }
-    (('-'.opt) >> digits.map(_ mkString("")) >> '.'.once >> digits.map(_ mkString("")))
+    ('-'.opt >> digits.asString >> '.'.once >> digits.asString)
       .map(resultToFloat) ?? "float"
   }
 
   // special
   def email = {
-    val local = letterOrDigit.atLeastOne.map(xs => xs.mkString(""))
-    val domain = ('@'.once >> 
-                  ("mail.ru".once <|> "gmail.com".once <|> "yandex.ru".once)
-                 ).map(_ + _)
-    (local >> domain).map(_ + _)
+    val local = letterOrDigit.atLeastOne.asString
+    val sign = '@'.once
+    val domain = "mail.ru".once <|> "gmail.com".once <|> "yandex.ru".once
+    local >> sign >> domain asString
   }
-  def tel = (digits >> '-'.once >> digits)
-    .map( (xs, ys) => xs._1 ++ List(xs._2) ++ ys)
-    .map(_ mkString(""))
 
+  def tel = (digits.asString >> '-'.once >> digits.asString).asString
+ 
   private def satisfy[A >: Char](p: A => Boolean)(label: String) =
     new Parser[A](label) {
       def apply(source: Source) = source.char match {
@@ -109,6 +95,27 @@ object ops {
     def anyOf = ls.map(_ parse).choice ?? s"Any of ${ls.mkString("|")}"
   }
   
+  implicit class ParserListOps[A](pa: Parser[List[A]]) {
+    def asString = pa.map(_ mkString(""))
+    def asInt = pa.asString.map(_ toInt)
+    def asFloat = pa.asString.map(_ toDouble)
+  }
+
+  implicit class ParserTuple1Ops[A, B](pa: Parser[(A, B)]) {
+    def asList = pa.map(List(_, _))
+    def asString = pa.asList.asString
+    def asInt = pa.asList.asInt
+    def asFloat = pa.asList.asFloat
+  }
+
+  implicit class ParserTuple2Ops[A, B, C](pa: Parser[((A, B), C)]) {
+    def flatten = pa.map((xs, x) => (xs._1, xs._2, x))
+    def asList = pa.map((xs, x) => List(xs._1, xs._2, x))
+    def asString = pa.asList.asString
+    def asInt = pa.asList.asInt
+    def asFloat = pa.asList.asFloat
+  }
+
   implicit class ParserOps[A](pa: Parser[A]) {
     def skip(n: Int=1) = whatever.times(n) |> pa
   }

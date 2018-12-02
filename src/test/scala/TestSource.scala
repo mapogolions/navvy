@@ -5,7 +5,7 @@ import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.CoreMatchers.equalTo
 
 import navvy.adt._
-
+import navvy.testkit.ops._
 
 class TestState {
   @Test
