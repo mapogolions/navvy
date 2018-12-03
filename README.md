@@ -1,6 +1,16 @@
 ## Simple library for parsing
 
 
+### [Combinators](./docs/combinators.md)
+
+- `>>` - *combining two parsers in sequence: the `and then` combinator*
+- `<|>` - *choosing between two parsers: the `or else` combinator*
+- `|>` - *keeps only the result of the right side parser*
+- `<|` - *keeps only the result of the left side parser*
+- `between` - *keeps only the result of the middle parser*
+- `after` - *alias |>. Reverse logic*
+- `before` - *alias <|. Reverse logic*
+
 ### [Basic built-in primitives](./docs/primitives.md)
 
 - `whitespace` - *any of `' '`, `\t`, `\n`*
@@ -18,7 +28,6 @@
 - `float` - *any of the float digits*
 - `whatever` - *whatever - (black hole)*
 
-
 ### [Selectors](./docs/selectors.md)
 
 - `once` - *matches one occurances of the specified parser*
@@ -33,16 +42,6 @@
 - `times` - *matches `n` occurances of the specified parser*
 - `sep` - *parses zero or more occurences of a parser with a separator*
 
-
-### [Combinators](./docs/combinators.md)
-
-- `>>` - *combining two parsers in sequence: the `and then` combinator*
-- `<|>` - *choosing between two parsers: the `or else` combinator*
-- `|>` - *keeps only the result of the right side parser*
-- `<|` - *keeps only the result of the left side parser*
-- `between` - *keeps only the result of the middle parser*
-- `after` - *alias |>. Reverse logic*
-- `before` - *alias <|. Reverse logic*
 
 
 ## sbt project cross-compiled with Dotty and Scala 2

@@ -34,6 +34,7 @@ object Main {
     // пропускаем первые два символа
     // (whatever >> whatever) |> 'b'.once | "aabus" echo
     // 'e'.once.times(3)
-    float | "-324.4545d" echo
+    // float | "-324.4545d" echo
+    (digit <|> letter <|> '_'.once <|> '$'.once).many | "helloer343woer342$34_jsdjfl" echo
   }
 }
