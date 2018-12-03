@@ -29,7 +29,7 @@ float | "-23.34N" // Success(-23.34, ...)
 ------------
 
 `pint :: Parser[Int]`
-> *The same as digit, but result converts to integer*
+> *The same as digit, but result is converted to integer*
 
 Examples:
 ```scala
