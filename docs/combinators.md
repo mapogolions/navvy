@@ -41,7 +41,7 @@ Examples:
 ```
 ---------------
 
-between :: Parser[A] -> Parser[B] -> Parser[C] -> Parser[B]
+`between :: Parser[A] -> Parser[B] -> Parser[C] -> Parser[B]`
 > *Keeps only the result of the middle parser*
 
 Examples:
@@ -50,7 +50,7 @@ Examples:
 ```
 --------------
 
-after :: Parser[A] -> Parser[B] -> Parser[A]
+`after :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
 ```sh
@@ -58,7 +58,7 @@ whitespace.after(digit) | "1 hello" // Success(' ', ...)
 ```
 --------------
 
-before :: Parser[A] -> Parser[B] -> Parser[A]
+`before :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
 ```sh
