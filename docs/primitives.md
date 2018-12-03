@@ -1,6 +1,8 @@
 ## Basic built-in primitives
 
 
+### digit
+
 `digit :: Parser[Char]`
 > *Any of the digits*
 
@@ -9,6 +11,8 @@ Examples:
 digit | "1. Some text"  // Success('1', ...)
 ```
 ------------
+
+### digits
 
 `digits :: Parser[List[Char]]`
 > *At least one of the digit*
@@ -19,6 +23,8 @@ digits | "1234text"  // Success(List('1', '2', '3', '4'), ...)
 ```
 ------------
 
+### floats
+
 `float :: Parser[Double]`
 > *Any of the float digits*
 
@@ -27,6 +33,8 @@ Examples:
 float | "-23.34N" // Success(-23.34, ...)
 ```
 ------------
+
+### pint
 
 `pint :: Parser[Int]`
 > *The same as digit, but result is converted to integer*
@@ -37,6 +45,8 @@ pint | "-23.34N" // Success(-23, ...)
 ```
 ------------
 
+### whitespace
+
 `whitespace :: Parser[Char]`
 > *Any of `' '`, `\t`, `\n`*
 
@@ -45,6 +55,8 @@ Examples:
 whitespace | " \t\ntext" // Success(' ', ...)
 ```
 ------------
+
+### whitespaces
 
 `whitespaces :: Parser[List[Char]]`
 > *At least one of the  whitespaces*
@@ -55,6 +67,8 @@ whitespaces | " \t\ntext" // Success(List(' ', '\t', '\n'), ...)
 ```
 --------------
 
+### letter
+
 `letter :: Parser[Char]`
 > *Any of the letter*
 
@@ -63,6 +77,8 @@ Examples:
 letter | "$" // Failure(...)
 ```
 -----------
+
+### letterOrDigit
 
 `letterOrDigit :: Parser[Char]`
 > *Any char which being letter or digit*
@@ -74,6 +90,8 @@ letterOrDigit | "t3ext"  // Success('t', ...)
 ```
 -----------
 
+### upper
+
 `upper :: Parser[Char]`
 > *Any letter in upper case*
 
@@ -82,6 +100,8 @@ Examples:
 upper | "Text" // Success('T', ...)
 ```
 ---------------
+
+### lower
 
 `lower :: Parser[Char]`
 > *Any letter in lower case*
@@ -92,6 +112,8 @@ lower | "tEXT" // Success('t', ...)
 ```
 ------------
 
+### space
+
 `space :: Parser[Char]`
 > *Corresponding with space letter - `' '`*
 
@@ -100,6 +122,8 @@ Examples:
 space | "    " // Success(' ', ...)
 ```
 -----------
+
+### tab
 
 `tab :: Parser[Char]`
 > *Corresponding with tab letter - `\t`*
@@ -110,6 +134,8 @@ tab | "\t\ntext" // Success('\t', ...)
 ```
 ------------
 
+### newline
+
 `newline :: Parser[Char]`
 > *Corresponding with newline letter - `\n`*
 
@@ -118,6 +144,8 @@ Examples:
 newline | "\ntext" // Success('\n', ...)
 ```
 ------------
+
+### whatever
 
 `whatever :: Parser[List[Char]]`
 > *Whatever*

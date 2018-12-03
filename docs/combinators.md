@@ -1,9 +1,9 @@
 ## Combinators
 
 
-### (>>)
+### (>>) and then
 
-desc: `>> :: Parser[A] -> Parser[B] -> Parser[(A, B)]`
+`>> :: Parser[A] -> Parser[B] -> Parser[(A, B)]`
 > *Combining two parsers in sequence: the `and then` combinator*
 
 Examples:
@@ -15,7 +15,7 @@ tab >> digit | "\t12345" // Success(('\t', '1'), ...)
 
 ### (<|>) or else
 
-desc: `<|> :: Parser[A] -> Parser[B] -> Parser[A | B]`
+`<|> :: Parser[A] -> Parser[B] -> Parser[A | B]`
 > *Choosing between two parsers: the `or else` combinator*
 
 Examples:
@@ -27,7 +27,7 @@ pint <|> float | "-344.45L" // Success(-344, ...)
 
 ### (|>) keep right
 
-desc: `|> :: Parser[A] -> Parser[B] -> Parser[B]`
+`|> :: Parser[A] -> Parser[B] -> Parser[B]`
 > *Keeps only the result of the right side parser*
 
 Exmaples:
@@ -39,7 +39,7 @@ Exmaples:
 
 ### (<|) keep left
 
-desc: `<| :: Parser[A] -> Parser[B] -> Parser[A]`
+`<| :: Parser[A] -> Parser[B] -> Parser[A]`
 > *Keeps only the result of the left side parser*
 
 Examples:
@@ -51,7 +51,7 @@ Examples:
 
 ### between
 
-desc: `between :: Parser[A] -> Parser[B] -> Parser[C] -> Parser[B]`
+`between :: Parser[A] -> Parser[B] -> Parser[C] -> Parser[B]`
 > *Keeps only the result of the middle parser*
 
 Examples:
@@ -62,7 +62,7 @@ Examples:
 
 ### after
 
-desc: `after :: Parser[A] -> Parser[B] -> Parser[A]`
+`after :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
 ```scala
@@ -72,7 +72,7 @@ whitespace.after(digit) | "1 hello" // Success(' ', ...)
 
 ### before
 
-desc: `before :: Parser[A] -> Parser[B] -> Parser[A]`
+`before :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
 ```scala

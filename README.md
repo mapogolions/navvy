@@ -3,13 +3,13 @@
 
 ### [Combinators](./docs/combinators.md)
 
-- [`>>`](./docs/combinators.md###and-then) - *combining two parsers in sequence: the `and then` combinator*
-- [`<|>`](./docs/combinators.md###or-else) - *choosing between two parsers: the `or else` combinator*
-- [`|>`](./docs/combinators.md###keep-right) - *keeps only the result of the right side parser*
-- [`<|`](./docs/combinators.md###keep-left) - *keeps only the result of the left side parser*
-- [`between`](./docs/combinators.md###between) - *keeps only the result of the middle parser*
-- [`after`](./docs/combinators.md###after) - *alias |>. Reverse logic*
-- [`before`](./docs/combinators.md###before) - *alias <|. Reverse logic*
+- `>>` - *combining two parsers in sequence: the `and then` combinator*
+- `<|>` - *choosing between two parsers: the `or else` combinator*
+- `|>` - *keeps only the result of the right side parser*
+- `<|` - *keeps only the result of the left side parser*
+- `between` - *keeps only the result of the middle parser*
+- `after` - *alias |>. Reverse logic*
+- `before` - *alias <|. Reverse logic*
 
 ### [Basic built-in primitives](./docs/primitives.md)
 

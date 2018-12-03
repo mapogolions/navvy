@@ -1,33 +1,49 @@
 ## Selectors
 
-```sh
-once :: Parser[A] -> Parser[A]
 
-Example:
+### once
+
+`once :: Parser[A] -> Parser[A]`
+> *Matches one occurances of the specified parser*
+
+Examples:
+```sh
 'b'.once | "boom"     // Success('b', ...)
 tab.once | "\t hello" // Success('\t', ...)
 ```
+-----------
 
-```sh
-many :: Parser[A] -> Parser[List[A]]
+### many
 
-Example:
+`many :: Parser[A] -> Parser[List[A]]`
+> *Matches zero or more occurences of the specified parser*
+
+Examples:
+```scala
 'b'.many | ""     // Success(Nil, ...)
 digit.many | "123.45" // Success(List('1', '2', '3'), ...)
 ```
+------------
 
-```sh
-atLeastOne :: Parser[A] -> Parser[List[A]]
+### atLeastOne
 
-Example:
+`atLeastOne :: Parser[A] -> Parser[List[A]]`
+> *Matches at least one occurences of the specified parser*
+
+Examples:
+```scala
 'b'.atLeastOne | "text"     // Failure
 (digit >> ';'.once).atLeastOne | "1;2;3" // Success( List(('1', ';'), ('2', ';')), ... )
 ```
+---------------
 
-```sh
-more :: Parser[A] -> Int-> Parser[List[A]]
+### more
 
-Example:
+`more :: Parser[A] -> Int-> Parser[List[A]]`
+> *Matches more than `n` times of the specified parser*
+
+Examples:
+```scala
 'b'.more(2) | "bbbb"     // Success(List('b', 'b', 'b', 'b'), ...)
 digit.many | "123.45" // Success(List('1', '2', '3'), ...)
 ```
