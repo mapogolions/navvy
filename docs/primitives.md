@@ -1,4 +1,4 @@
-## Basic build-in primitives (signatures)
+## Basic built-in primitives (signatures)
 
 ```sh
 digit :: Parser[Char]
