@@ -5,9 +5,9 @@
 > *Combining two parsers in sequence: the `and then` combinator*
 
 Examples:
-```sh
-digit >> '.'.once | "1. Some text"
-tab >> digits.times(3) | "\t12345"
+```scala
+digit >> '.'.once | "1. Some text" // Success(('1', '.'), ...)
+tab >> digit | "\t12345" // Success(('\t', '1'), ...)
 ```
 ------------
 
@@ -15,7 +15,7 @@ tab >> digits.times(3) | "\t12345"
 > *Choosing between two parsers: the `or else` combinator*
 
 Examples:
-```sh
+```scala
 float <|> pint | "-344.45L" // Success(-344.45, ...)
 pint <|> float | "-344.45L" // Success(-344, ...)
 ```
@@ -25,7 +25,7 @@ pint <|> float | "-344.45L" // Success(-344, ...)
 > *Keeps only the result of the right side parser*
 
 Exmaples:
-```sh
+```scala
 "hello".once |> "world".once | "helloworld" // Success("world")
 '1'.once |> '2'.once | "1234"               // Success('2', ...)
 ```
@@ -35,7 +35,7 @@ Exmaples:
 > *Keeps only the result of the left side parser*
 
 Examples:
-```sh
+```scala
 "hello".once <| "world".once | "helloworld" // Success("hello")
 '1'.once <| '2'.once | "1234"               // Success('1', ...)
 ```
@@ -45,7 +45,7 @@ Examples:
 > *Keeps only the result of the middle parser*
 
 Examples:
-```sh
+```scala
 '.'.between(digits)(whitespace) | "1. Some text" // Success('.', ...)
 ```
 --------------
@@ -53,7 +53,7 @@ Examples:
 `after :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
-```sh
+```scala
 whitespace.after(digit) | "1 hello" // Success(' ', ...)
 ```
 --------------
@@ -61,7 +61,6 @@ whitespace.after(digit) | "1 hello" // Success(' ', ...)
 `before :: Parser[A] -> Parser[B] -> Parser[A]`
 
 Examples:
-```sh
+```scala
 digit.before(whitespace) | "1 hello" // Success('1', ...)
 ```
---------------

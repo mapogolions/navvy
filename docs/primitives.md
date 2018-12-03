@@ -1,86 +1,128 @@
 ## Basic built-in primitives
 
-```sh
-digit :: Parser[Char]
 
+`digit :: Parser[Char]`
+> *Any of the digits*
+
+Examples:
+```scala
 digit | "1. Some text"  // Success('1', ...)
 ```
+------------
 
-```sh
-digits :: Parser[List[Char]]
+`digits :: Parser[List[Char]]`
+> *At least one of the digit*
 
+Examples:
+```scala
 digits | "1234text"  // Success(List('1', '2', '3', '4'), ...)
 ```
+------------
 
-```sh
-float :: Parser[Double]
+`float :: Parser[Double]`
+> *Any of the float digits*
 
+Examples:
+```scala
 float | "-23.34N" // Success(-23.34, ...)
 ```
+------------
 
-```sh
-pint :: Parser[Int]
+`pint :: Parser[Int]`
+> *The same as digit, but result converts to integer*
 
+Examples:
+```scala
 pint | "-23.34N" // Success(-23, ...)
 ```
+------------
 
-```sh
-whitespace :: Parser[Char]
+`whitespace :: Parser[Char]`
+> *Any of `' '`, `\t`, `\n`*
 
+Examples:
+```scala
 whitespace | " \t\ntext" // Success(' ', ...)
 ```
+------------
 
-```sh
-whitespaces :: Parser[List[Char]]
+`whitespaces :: Parser[List[Char]]`
+> *At least one of the  whitespaces*
 
+Examples:
+```scala
 whitespaces | " \t\ntext" // Success(List(' ', '\t', '\n'), ...)
 ```
+--------------
 
-```sh
-letter :: Parser[Char]
+`letter :: Parser[Char]`
+> *Any of the letter*
 
+Examples:
+```scala
 letter | "$" // Failure(...)
 ```
+-----------
 
-```sh
-letterOrDigit :: Parser[Char]
+`letterOrDigit :: Parser[Char]`
+> *Any char which being letter or digit*
 
+Examples:
+```scala
 letterOrDigit | "34text" // Success('3', ...)
 letterOrDigit | "t3ext"  // Success('t', ...)
 ```
+-----------
 
-```sh
-upper :: Parser[Char]
+`upper :: Parser[Char]`
+> *Any letter in upper case*
 
+Examples:
+```scala
 upper | "Text" // Success('T', ...)
 ```
+---------------
 
-```sh
-lower :: Parser[Char]
+`lower :: Parser[Char]`
+> *Any letter in lower case*
 
+Examples:
+```scala
 lower | "tEXT" // Success('t', ...)
 ```
+------------
 
-```sh
-space :: Parser[Char]
+`space :: Parser[Char]`
+> *Corresponding with space letter - `' '`*
 
+Examples:
+```scala
 space | "    " // Success(' ', ...)
 ```
+-----------
 
-```sh
-tab :: Parser[Char]
+`tab :: Parser[Char]`
+> *Corresponding with tab letter - `\t`*
 
+Examples:
+```scala
 tab | "\t\ntext" // Success('\t', ...)
 ```
+------------
 
-```sh
-newline :: Parser[Char]
+`newline :: Parser[Char]`
+> *Corresponding with newline letter - `\n`*
 
+Examples:
+```scala
 newline | "\ntext" // Success('\n', ...)
 ```
+------------
 
-```sh
-whatever :: Parser[List[Char]]
+`whatever :: Parser[List[Char]]`
+> *Whatever*
 
+Examples:
+```scala
 whatever | "" // Success(Nil, ...)
 ```
