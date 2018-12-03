@@ -1,25 +1,25 @@
 ## Simple library for parsing
 
 
-### Basic built-in primitives
+### [Basic built-in primitives](./docs/primitives.md)
 
-- `digit` - *any of the digits*
-- `digits` - *at least one of the digit*
-- `float` - *any of the float digits*
 - `whitespace` - *any of `' '`, `\t`, `\n`*
 - `whitespaces` - *at least one of the  whitespaces*
 - `letter` - *any of the letter*
 - `letterOrDigit`- *any char which being letter or digit*
 - `upper` - *any letter in upper case*
 - `lower` - *any letter in lower case*
-- `space` - *copperesponding with space letter - `' '`*
+- `space` - *corresponding with space letter - `' '`*
 - `tab` - *corresponding with tab letter - `\t`*
 - `newline` - *corresponding with newline letter - `\n`*
-- `whatever` - *whatever - (black hole)*
+- `digit` - *any of the digits*
+- `digits` - *at least one of the digit*
 - `pint` - *the same as digit, but result converts to integer*
+- `float` - *any of the float digits*
+- `whatever` - *whatever - (black hole)*
 
 
-### Selectors
+### [Selectors](./docs/selectors.md)
 
 - `once` - *matches one occurances of the specified parser*
 - `parse` - *alias `once`*
@@ -34,13 +34,15 @@
 - `sep` - *parses zero or more occurences of a parser with a separator*
 
 
-### Composition tools
+### [Combinators](./docs/combinators.md)
 
 - `>>` - *combining two parsers in sequence: the `and then` combinator*
 - `<|>` - *choosing between two parsers: the `or else` combinator*
 - `|>` - *keeps only the result of the right side parser*
 - `<|` - *keeps only the result of the left side parser*
 - `between` - *keeps only the result of the middle parser*
+- `after` - *alias |>. Reverse logic*
+- `before` - *alias <|. Reverse logic*
 
 
 ## sbt project cross-compiled with Dotty and Scala 2
