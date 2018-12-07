@@ -45,5 +45,40 @@ Examples:
 Examples:
 ```scala
 'b'.more(2) | "bbbb"     // Success(List('b', 'b', 'b', 'b'), ...)
-digit.many | "123.45" // Success(List('1', '2', '3'), ...)
+digit.more | "123.45" // Success(List('1', '2', '3'), ...)
 ```
+--------------
+
+### moreOrEq
+
+`moreOrEq :: Parser[A] -> Int-> Parser[List[A]]`
+> *Matches more or equal than `n` times of the specified parser*
+
+Examples:
+```scala
+'b'.moreOrEq(2) | "bb"     // Success(List('b', 'b'), ...)
+digit.moreOrEq | "123.45" // Success(List('1', '2', '3'), ...)
+```
+----------------
+
+### less
+
+`less :: Parser[A] -> Int-> Parser[List[A]]`
+> *Matches less than `n` times of the specified parser*
+
+Examples:
+```scala
+'b'.less(2) | "bb"     // Success(List('b'), ...)
+```
+---------------
+
+### lessOrEq
+
+`lessOrEq :: Parser[A] -> Int-> Parser[List[A]]`
+> *Matches less of equal `n` times of the specified parser*
+
+Examples:
+```scala
+'b'.lessOrEq(2) | "bb"     // Success(List('b', 'b'), ...)
+```
+------------------
